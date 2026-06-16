@@ -47,18 +47,18 @@ static const sf::Color kTextSecondary(110, 115, 130);
 static const sf::Color kTextMuted    (150, 155, 165);
 
 // 卡牌 ID → 资源索引映射（assets/ 中的文件顺序）
-// ID 0=龙→asset_02, ID 1=凤→asset_08, ID 2=虎→asset_04, ID 3=鹤→asset_07,
-// ID 4=莲→asset_06, ID 5=竹→asset_05, ID 6=剑→asset_01, ID 7=云→asset_03
+// ID 0=火焰→asset_02, ID 1=药草→asset_08, ID 2=钻石→asset_04, ID 3=能量球→asset_07,
+// ID 4=卷轴→asset_06, ID 5=盾牌→asset_05, ID 6=剑→asset_01, ID 7=飞镖→asset_03
 static constexpr int kCardAssetMap[8] = {2, 8, 4, 7, 6, 5, 1, 3};
 static const std::string kCardTooltips[8] = {
-    /* 0 龙 */ "消耗: 2\n造成 14 伤害\n自身 -3 生命",
-    /* 1 凤 */ "消耗: 1\n恢复 3 生命\n[消耗]",
-    /* 2 虎 */ "消耗: 2\n力量 +2\n[消耗]",
-    /* 3 鹤 */ "消耗: 0\n能量 +1\n[消耗]",
-    /* 4 莲 */ "消耗: 1\n对 Boss 施加 1 层虚弱",
-    /* 5 竹 */ "消耗: 1\n获得 5 护甲",
+    /* 0 火焰 */ "消耗: 2\n造成 14 伤害\n自身 -3 生命",
+    /* 1 药草 */ "消耗: 1\n恢复 3 生命\n[消耗]",
+    /* 2 钻石 */ "消耗: 2\n力量 +2\n[消耗]",
+    /* 3 能量球 */ "消耗: 0\n能量 +1\n[消耗]",
+    /* 4 卷轴 */ "消耗: 1\n对 Boss 施加 1 层虚弱",
+    /* 5 盾牌 */ "消耗: 1\n获得 5 护甲",
     /* 6 剑 */ "消耗: 1\n造成 6 伤害",
-    /* 7 云 */ "消耗: 1\n造成 3 伤害\n施加 1 层易伤",
+    /* 7 飞镖 */ "消耗: 1\n造成 3 伤害\n施加 1 层易伤",
 };
 
 // 全局帮助面板规则文本（手动 \n 换行）
@@ -273,12 +273,12 @@ static sf::Color getCardTypeColor(int id)
 static Sound getCardSfx(int cardId)
 {
     switch (cardId) {
-        case 0: return Sound::HeavyAttack;   // 龙：大伤害
-        case 1: return Sound::Heal;          // 凤：回血
-        case 2: return Sound::BluntAttack;   // 虎：重击/力量
-        case 3: return Sound::StrengthUp;    // 鹤：能量回升
-        case 4: return Sound::DoomApply;     // 莲：虚弱施加
-        case 5: return Sound::BlockUp;       // 竹：护甲
+        case 0: return Sound::HeavyAttack;   // 火焰：大伤害
+        case 1: return Sound::Heal;          // 药草：回血
+        case 2: return Sound::BluntAttack;   // 钻石：重击/力量
+        case 3: return Sound::StrengthUp;    // 能量球：能量回升
+        case 4: return Sound::DoomApply;     // 卷轴：虚弱施加
+        case 5: return Sound::BlockUp;       // 盾牌：护甲
         case 6: return Sound::SlashAttack;   // 剑：轻攻击
         case 7: return Sound::DaggerThrow;   // 云：弹药/飞镖
         default: return Sound::CardSelect;
@@ -827,7 +827,7 @@ int main()
                                         break;
 
                                     case BattleEvent::SelfDamagePlayed:
-                                        // 龙：Boss 扣血 + 玩家自伤
+                                        // 火焰：Boss 扣血 + 玩家自伤
                                         spawnFloatText(floatTexts, font,
                                             "-" + std::to_string(ar.value),
                                             sf::Color(255, 80, 80), cardX, cardY);

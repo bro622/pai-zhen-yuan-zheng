@@ -86,9 +86,9 @@ void GameLogic::initGameWithParams(int playerHP, int bossHP, int maxEnergy, int 
 int GameLogic::getCardCost(int id) noexcept
 {
     switch (id) {
-        case 0: return 2;   // 龙：2 费
-        case 2: return 2;   // 虎：2 费
-        case 3: return 0;   // 鹤：0 费（回能牌）
+        case 0: return 2;   // 火焰：2 费
+        case 2: return 2;   // 钻石：2 费
+        case 3: return 0;   // 能量球：0 费（回能牌）
         default: return 1;  // 其余：1 费
     }
 }
@@ -147,7 +147,7 @@ ActionResult GameLogic::playCard(int index)
         return { m_state, BattleEvent::AttackPlayed, dmg - absorbed };
     }
 
-    case 0: {   // 龙：14 + strength 伤害，自伤 3
+    case 0: {   // 火焰：14 + strength 伤害，自伤 3
         int dmg = calcDamage(14 + m_strength);
         int absorbed = std::min(m_bossBlock, dmg);
         m_bossBlock -= absorbed;
@@ -173,19 +173,19 @@ ActionResult GameLogic::playCard(int index)
     //  技能类（打出后全部消失，下回合刷新）
     // ──────────────────────────────────────────────────────────────────
 
-    case 2: {   // 虎：strength + 2
+    case 2: {   // 钻石：strength + 2
         m_strength += 2;
         m_cards[index].destroyed = true;
         return { m_state, BattleEvent::StrengthGained, 2 };
     }
 
-    case 3: {   // 鹤：回 1 能量
+    case 3: {   // 能量球：回 1 能量
         m_energy = std::min(m_maxEnergy, m_energy + 1);
         m_cards[index].destroyed = true;
         return { m_state, BattleEvent::EnergyRefunded, 1 };
     }
 
-    case 1: {   // 凤：回 3 hp
+    case 1: {   // 药草：回 3 hp
         m_playerHP = std::min(m_playerMaxHP, m_playerHP + 3);
         m_cards[index].destroyed = true;
         return { m_state, BattleEvent::HealPlayed, 3 };
@@ -195,13 +195,13 @@ ActionResult GameLogic::playCard(int index)
     //  防御/控制类（打出后消失，下回合刷新）
     // ──────────────────────────────────────────────────────────────────
 
-    case 5: {   // 竹：block + 5
+    case 5: {   // 盾牌：block + 5
         m_block += 5;
         m_cards[index].destroyed = true;
         return { m_state, BattleEvent::DefensePlayed, 5 };
     }
 
-    case 4: {   // 莲：Boss weak + 1
+    case 4: {   // 卷轴：Boss weak + 1
         m_weakStacks += 1;
         m_cards[index].destroyed = true;
         return { m_state, BattleEvent::WeakApplied, 1 };
@@ -367,7 +367,7 @@ void GameLogic::checkWinLose() noexcept
         return;
     }
 
-    // 玩家死亡判定（Boss 攻击后 或 龙自伤后检查）
+    // 玩家死亡判定（Boss 攻击后 或 火焰自伤后检查）
     if (m_playerHP <= 0) {
         m_playerHP = 0;
         m_state    = GameState::GameOver_Lose;

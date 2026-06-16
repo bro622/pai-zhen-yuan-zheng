@@ -40,7 +40,7 @@ enum class BattleEvent : uint8_t {
     VulnerableApplied, // 给 Boss 施加易伤
     EnergyRefunded,    // 能量回复
     HealPlayed,        // 回血
-    SelfDamagePlayed,  // 自伤（龙）
+    SelfDamagePlayed,  // 自伤（火焰）
     BossAttacked,      // Boss 攻击玩家
     BoardRefreshed     // 棋盘已刷新
 };
